@@ -1,0 +1,37 @@
+name: Auto Issue Align
+
+on:
+  issues:
+    types:
+      - opened
+      - reopened
+      - closed
+
+jobs:
+  auto_align:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      GH_REPO: ${{ github.repository }}
+
+    steps:
+      - name: Add '작업시작' Label on Opened or Reopened
+        if: ${{ github.event.action == 'opened'  }}
+        run: gh issue edit ${{ github.event.issue.number }} --add-label "작업시작" --add-assignee "${{ github.event.issue.user.login }}"
+
+      - name: Reopen "작업종료" Label 없애고 "작업시작" 붙이기
+        if: ${{ github.event.action == 'reopened' }}
+        run : |
+          gh issue edit ${{ github.event.issue.number }} \
+          --add-label "작업시작" \
+          --remove-label "작업종료" \
+          --add-assignee "${{ github.event.issue.user.login }}
+
+      - name: Add '작업종료' Label on Closed
+        if: ${{ github.event.action == 'closed' }}
+        run: |
+          gh issue edit ${{ github.event.issue.number }} \
+          --add-label "작업종료" \
+          --remove-label "작업시작"
