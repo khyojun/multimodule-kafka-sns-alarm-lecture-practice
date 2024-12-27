@@ -3,19 +3,11 @@ plugins {
     id 'org.springframework.boot' version '3.4.1'
 }
 
-group = 'com.fc'
-version = '0.0.1-SNAPSHOT'
-
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
-repositories {
-    mavenCentral()
-}
-
 
 allprojects {
     group = "com.fc"
