@@ -27,7 +27,7 @@ jobs:
           gh issue edit ${{ github.event.issue.number }} \
           --add-label "작업시작" \
           --remove-label "작업종료" \
-          --add-assignee "${{ github.event.issue.user.login }}
+          --add-assignee "${{ github.event.issue.user.login }}"
 
       - name: Add '작업종료' Label on Closed
         if: ${{ github.event.action == 'closed' }}
